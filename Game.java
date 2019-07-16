@@ -69,7 +69,7 @@ public class Game{
         }
         for(Bullet b: bullets){
             b.move();
-            if(b.getLoc()[0] < 0 || b.getLoc()[0] > 15 || b.getLoc()[1] < 0 || b.getLoc()[1] > 10){
+            if(b.getLoc()[0] < 0 || b.getLoc()[0] > 15 || b.getLoc()[1] < -3 || b.getLoc()[1] > 10){
                 bullets.remove(b);
             }
         }
