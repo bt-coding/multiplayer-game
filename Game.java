@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.*;
 public class Game{
     private int[][] map;
     private double[] p1loc;
@@ -10,12 +11,14 @@ public class Game{
     private double yVelocity;
     private double gravity;
     private double[] scales;
+    private ArrayList<Bullet> bullets;
     public Game(int mn){
         map = getMap(mn);
         p1loc = new double[2];
         p2loc = new double[2];
         yVelocity = 0;
         gravity = 0.01;
+        bullets = new ArrayList<Bullet>();
     }
     public void setScales(double[] s){
         scales = s;
@@ -64,6 +67,28 @@ public class Game{
                 grounded = true;
             }
         }
+        for(Bullet b: bullets){
+            b.move();
+            if(b.getLoc()[0] < 0 || b.getLoc()[0] > 15 || b.getLoc()[1] < 0 || b.getLoc()[1] > 10){
+                bullets.remove(b);
+            }
+        }
+    }
+    public void shoot(){
+        bullets.add(new Bullet(new double[]{p1loc[0]+0.5,p1loc[1]+1},getSlope()));
+    }
+    public double[] getSlope(){
+        double h2 = 0.5;
+        double[] p1 = new double[]{(p1loc[0]+0.5)*scales[0],(p1loc[1]+1)*scales[1]};
+        double[] p2 = new double[]{MouseInfo.getPointerInfo().getLocation().x,MouseInfo.getPointerInfo().getLocation().y};
+        System.out.println(p1[0] + " " + p1[1]);
+        double h1 = Math.sqrt(((p2[0]-p1[0])*(p2[0]-p1[0]))+((p2[1]-p1[1])*(p2[1]-p1[1])));
+        double y1 = p2[1]-p1[1];
+        double x1 = p2[0]-p1[0];
+        return new double[]{h2/h1*x1,h2/h1*y1};
+    }
+    public ArrayList<Bullet> getBullets(){
+        return bullets;
     }
     public boolean landed(){
         Rectangle player = new Rectangle((int)(p1loc[0]*scales[0]),(int)((p1loc[1]*scales[1])+(scales[1]*2)),(int)(scales[0]),1);

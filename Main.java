@@ -6,7 +6,9 @@ public class Main{
         Game game = new Game(0);
         Display screen = new Display(game);
         KeyboardThread keyboard = new KeyboardThread(game);
+        Mouse mouse = new Mouse(game);
         frame.addKeyListener(keyboard);
+        frame.addMouseListener(mouse);
         frame.add(screen);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);

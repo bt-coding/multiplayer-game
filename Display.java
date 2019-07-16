@@ -31,5 +31,9 @@ public class Display extends JComponent{
         g.fillRect((int)(p1loc[0]*xScale),(int)(p1loc[1]*yScale),(int)xScale,(int)(2*yScale));
         g.setColor(new Color(100,100,255));
         g.fillRect((int)(p2loc[0]*xScale),(int)(p2loc[1]*yScale),(int)xScale,(int)(2*yScale));
+        g.setColor(Color.YELLOW);
+        for(Bullet b: game.getBullets()){
+            g.fillRect((int)(b.getLoc()[0]*xScale),(int)(b.getLoc()[1]*yScale),(int)(xScale/4),(int)(yScale/4));
+        }
     }
 }
