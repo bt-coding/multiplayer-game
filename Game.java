@@ -57,9 +57,8 @@ public class Game{
             grounded = landed();
         }
         if(!grounded){
-            if(yVelocity > -0.1)
+            if(yVelocity > -0.2)
                 yVelocity -= gravity;
-            System.out.println(yVelocity+" - "+p1loc[1]);
             p1loc[1] -= yVelocity;
             if(yVelocity <= 0 && landed()){
                 grounded = true;
@@ -74,7 +73,6 @@ public class Game{
                     Rectangle block = new Rectangle((int)(x*scales[0]),(int)(y*scales[1]),(int)scales[0],(int)scales[1]);
                     if(player.intersects(block)){
                         p1loc[1] = (block.getY()-(scales[1]*2))/scales[1];
-                        System.out.println(p1loc[1]);
                         return true;
                     }
                 }
@@ -83,18 +81,15 @@ public class Game{
         return false;
     }
     public void jump(){
-        System.out.println(grounded);
         if(grounded){
             yVelocity = 0.3;
             grounded = false;
         }
     }
     public void setLeft(boolean l){
-        System.out.println("left");
         left = l;
     }
     public void setRight(boolean r){
-        System.out.println("Right");
         right = r;
     }
 }
