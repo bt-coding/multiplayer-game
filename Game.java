@@ -12,6 +12,7 @@ public class Game{
     private double gravity;
     private double[] scales;
     private ArrayList<Bullet> bullets;
+    
     public Game(int mn){
         map = getMap(mn);
         p1loc = new double[2];
@@ -38,6 +39,9 @@ public class Game{
                                
         }
         return new int[10][15];
+    }
+    public void spawn(){
+        p1loc = new double[2];
     }
     public double[] getP1loc(){
         return p1loc;
@@ -78,7 +82,7 @@ public class Game{
         bullets.add(new Bullet(new double[]{p1loc[0]+0.5,p1loc[1]+1},getSlope()));
     }
     public double[] getSlope(){
-        double h2 = 0.5;
+        double h2 = 0.3;
         double[] p1 = new double[]{(p1loc[0]+0.5)*scales[0],(p1loc[1]+1)*scales[1]};
         double[] p2 = new double[]{MouseInfo.getPointerInfo().getLocation().x,MouseInfo.getPointerInfo().getLocation().y};
         System.out.println(p1[0] + " " + p1[1]);
