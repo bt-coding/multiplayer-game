@@ -14,11 +14,13 @@ public class Main{
         frame.setVisible(true);
         frame.setBounds(0,0,1920,1080);
         screen.draw();
+        game.spawn(1);
         while(true){
             try{
                 Thread.sleep(1000/60);
                 game.update();
                 screen.draw();
+                game.dealDamage(0.5);
             }
             catch(Exception e){
                 System.out.println(e);

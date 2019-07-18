@@ -12,7 +12,10 @@ public class Game{
     private double gravity;
     private double[] scales;
     private ArrayList<Bullet> bullets;
-    
+    private final double[][] spawnPoints = new double[][]{{1,0},{14,0},{7,0}};;
+    private double bulletDamage;
+    private double maxPlayerHealth;
+    private double health;
     public Game(int mn){
         map = getMap(mn);
         p1loc = new double[2];
@@ -20,6 +23,8 @@ public class Game{
         yVelocity = 0;
         gravity = 0.01;
         bullets = new ArrayList<Bullet>();
+        bulletDamage = 10;
+        maxPlayerHealth = 200;
     }
     public void setScales(double[] s){
         scales = s;
@@ -36,12 +41,22 @@ public class Game{
                                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                                {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                                {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}};
-                               
         }
         return new int[10][15];
     }
-    public void spawn(){
-        p1loc = new double[2];
+    public void spawn(int playerNum){
+        health = maxPlayerHealth;
+        p1loc = spawnPoints[playerNum];
+    }
+    public void respawn(){
+        health = maxPlayerHealth;
+        int spawnPointNum = (int)(Math.random()*spawnPoints.length);
+        System.out.println(spawnPointNum);
+        p1loc = spawnPoints[spawnPointNum];
+        System.out.println("X: "+p1loc[0] +" Y: "+p1loc[1]+" SpawnPointCords- X: "+spawnPoints[spawnPointNum][0]+" Y: "+spawnPoints[spawnPointNum][1]);
+    }
+    public void dealDamage(double damage){
+        health -= damage;
     }
     public double[] getP1loc(){
         return p1loc;
@@ -77,6 +92,9 @@ public class Game{
                 bullets.remove(b);
             }
         }
+        if(health <= 0){
+            respawn();
+        }
     }
     public void shoot(){
         bullets.add(new Bullet(new double[]{p1loc[0]+0.5,p1loc[1]+1},getSlope()));
@@ -85,11 +103,17 @@ public class Game{
         double h2 = 0.3;
         double[] p1 = new double[]{(p1loc[0]+0.5)*scales[0],(p1loc[1]+1)*scales[1]};
         double[] p2 = new double[]{MouseInfo.getPointerInfo().getLocation().x,MouseInfo.getPointerInfo().getLocation().y};
-        System.out.println(p1[0] + " " + p1[1]);
+        //System.out.println(p1[0] + " " + p1[1]);
         double h1 = Math.sqrt(((p2[0]-p1[0])*(p2[0]-p1[0]))+((p2[1]-p1[1])*(p2[1]-p1[1])));
         double y1 = p2[1]-p1[1];
         double x1 = p2[0]-p1[0];
         return new double[]{h2/h1*x1,h2/h1*y1};
+    }
+    public double getPlayerHealth(){
+        return health;
+    }
+    public double getMaxPlayerHealth(){
+        return maxPlayerHealth;
     }
     public ArrayList<Bullet> getBullets(){
         return bullets;

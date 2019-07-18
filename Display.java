@@ -52,9 +52,18 @@ public class Display extends JComponent{
         }
         g.setColor(new Color(100,100,255));
         g.drawImage(playerRight,(int)(p2loc[0]*xScale),(int)(p2loc[1]*yScale),(int)xScale,(int)(2*yScale),this);
+        //draws the health bar
+        g.setColor(Color.BLACK);
+        g.drawRect((int)(p1loc[0]*xScale-1),(int)(p1loc[1]*yScale-10),(int)(xScale+1),11);
+        g.setColor(Color.RED);
+        g.fillRect((int)(p1loc[0]*xScale),(int)(p1loc[1]*yScale-9),(int)xScale,10);
+        g.setColor(Color.GREEN);
+        g.fillRect((int)(p1loc[0]*xScale-1),(int)(p1loc[1]*yScale-9),(int)(xScale*(game.getPlayerHealth()/game.getMaxPlayerHealth())),10);
         g.setColor(Color.YELLOW);
         for(Bullet b: game.getBullets()){
             g.fillRect((int)(b.getLoc()[0]*xScale),(int)(b.getLoc()[1]*yScale),(int)(xScale/4),(int)(yScale/4));
         }
+        g.setColor(Color.BLACK);
+        g.drawString("Health"+game.getPlayerHealth(),900,20);
     }
 }
