@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import java.io.File;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.*;
 public class Display extends JComponent{
     int[][] map;
     double yScale;
@@ -13,17 +14,36 @@ public class Display extends JComponent{
     BufferedImage playerLeft;
     BufferedImage ground;
     BufferedImage background;
+    ArrayList<BufferedImage> annimateRightWalk;
+    ArrayList<BufferedImage> annimateLeftWalk;
+    int annimateCounter;
     public Display(Game g){
         game = g;
         map = g.getMap();
         yScale = 1070/map.length;
         xScale = 1920/map[0].length;
         game.setScales(new double[]{xScale,yScale});
+        annimateCounter = 0;
         try{
             playerRight = ImageIO.read(new File("Player-Right.png"));
             playerLeft = ImageIO.read(new File("Player-Left.png"));
             ground = ImageIO.read(new File("ground.png"));
             background = ImageIO.read(new File("background.png"));
+            annimateRightWalk = new ArrayList<BufferedImage>();
+            annimateLeftWalk = new ArrayList<BufferedImage>();
+            for(int count = 1; count <= 3; count++){
+                String photo = "Player-Right-Walking("+count+")";
+                try{
+                    BufferedImage temp = ImageIO.read(new File(photo));
+                }
+                catch(Exception e){
+                    System.out.println(e);
+                }
+                //annimateRightWalk.add(temp);
+                photo = "Player-Left-Walking("+count+")";
+                //temp = ImageIO.read(new File(photo));
+                //annimateLeftWalk.add(temp);
+            }
         }
         catch(Exception e){
             System.out.println(e);
@@ -42,9 +62,21 @@ public class Display extends JComponent{
                 }
             }
         }
+        if(game.getRight() || game.getLeft()){
+            annimateCounter = (annimateCounter+1)%59;
+        }
+        else{
+            annimateCounter = 0;
+        }
         double[] p1loc = game.getP1loc();
         double[] p2loc = game.getP2loc();
-        if(MouseInfo.getPointerInfo().getLocation().x-((p1loc[0]+0.5)*xScale) > 0){
+        if(game.getRight()){
+            g.drawImage(annimateRightWalk.get((int)(annimateCounter/20)),(int)(p1loc[0]*xScale),(int)(p1loc[1]*yScale),(int)xScale,(int)(2*yScale),this);
+        }
+        else if(game.getLeft()){
+            g.drawImage(annimateLeftWalk.get((int)(annimateCounter/20)),(int)(p1loc[0]*xScale),(int)(p1loc[1]*yScale),(int)xScale,(int)(2*yScale),this);
+        }
+        else if(MouseInfo.getPointerInfo().getLocation().x-((p1loc[0]+0.5)*xScale) > 0){
             g.drawImage(playerRight,(int)(p1loc[0]*xScale),(int)(p1loc[1]*yScale),(int)xScale,(int)(2*yScale),this);
         }
         else{

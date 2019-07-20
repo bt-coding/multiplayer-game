@@ -12,7 +12,7 @@ public class Game{
     private double gravity;
     private double[] scales;
     private ArrayList<Bullet> bullets;
-    private final double[][] spawnPoints = new double[][]{{1,0},{14,0},{7,0}};;
+    private final double[][] spawnPoints = new double[][]{{1,0},{14,0},{7,0}};
     private double bulletDamage;
     private double maxPlayerHealth;
     private double health;
@@ -46,14 +46,38 @@ public class Game{
     }
     public void spawn(int playerNum){
         health = maxPlayerHealth;
-        p1loc = spawnPoints[playerNum];
+        p1loc = new double[]{spawnPoints[playerNum][0],spawnPoints[playerNum][1]};
+    }
+    public boolean getRight(){
+        return right;
+    }
+    public boolean getLeft(){
+        return left;
+    }
+    public int checkBulletCollion(){
+       Rectangle p2 = new Rectangle((int)(p2loc[0]*scales[0]),(int)(p2loc[1]*scales[1]),(int)scales[0],(int)(2*scales[1])); 
+       int count = 0;
+       for(Bullet b: bullets){
+           Rectangle bullet = new Rectangle((int)(b.getLoc()[0]*scales[0]),(int)(b.getLoc()[1]*scales[1]),(int)(scales[0]/4),(int)(scales[1]/4));
+           if(bullet.intersects(p2)){
+               count++;
+           }
+       }
+       return count;
+    }
+    public boolean isWalking(){
+        if(left || right)
+            return true;
+        return false;
     }
     public void respawn(){
         health = maxPlayerHealth;
         int spawnPointNum = (int)(Math.random()*spawnPoints.length);
-        System.out.println(spawnPointNum);
-        p1loc = spawnPoints[spawnPointNum];
-        System.out.println("X: "+p1loc[0] +" Y: "+p1loc[1]+" SpawnPointCords- X: "+spawnPoints[spawnPointNum][0]+" Y: "+spawnPoints[spawnPointNum][1]);
+        for(double[] cord: spawnPoints){
+            System.out.println(cord[0]+" / "+cord[1]);
+        }
+        p1loc = new double[]{spawnPoints[spawnPointNum][0],spawnPoints[spawnPointNum][1]};
+        //System.out.println("X: "+p1loc[0] +" Y: "+p1loc[1]+" SpawnPointCords- X: "+spawnPoints[spawnPointNum][0]+" Y: "+spawnPoints[spawnPointNum][1]);
     }
     public void dealDamage(double damage){
         health -= damage;
