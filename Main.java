@@ -18,12 +18,12 @@ public class Main{
         while(true){
             try{
                 Thread.sleep(1000/60);
-                game.update();
-                screen.draw();
             }
             catch(Exception e){
-                System.out.println(e);
+                System.out.println(e + " main class");
             }   
+            game.update();
+            screen.draw();
         }
     }
 }

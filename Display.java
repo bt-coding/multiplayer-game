@@ -42,7 +42,7 @@ public class Display extends JComponent{
             }
         }
         catch(Exception e){
-            System.out.println(e);
+            System.out.println(e+" loading textures");
         }
     }
     public void draw(){
@@ -83,15 +83,20 @@ public class Display extends JComponent{
         //draws the health bar
         g.setColor(Color.BLACK);
         g.drawRect((int)(p1loc[0]*xScale-1),(int)(p1loc[1]*yScale-10),(int)(xScale+1),11);
+        g.drawRect((int)(p2loc[0]*xScale-1),(int)(p2loc[1]*yScale-10),(int)(xScale+1),11);
         g.setColor(Color.RED);
         g.fillRect((int)(p1loc[0]*xScale),(int)(p1loc[1]*yScale-9),(int)xScale,10);
+        g.fillRect((int)(p2loc[0]*xScale),(int)(p2loc[1]*yScale-9),(int)xScale,10);
         g.setColor(Color.GREEN);
         g.fillRect((int)(p1loc[0]*xScale-1),(int)(p1loc[1]*yScale-9),(int)(xScale*(game.getPlayerHealth()/game.getMaxPlayerHealth())),10);
+        g.fillRect((int)(p2loc[0]*xScale-1),(int)(p2loc[1]*yScale-9),(int)(xScale*(game.getP2Health()/game.getMaxPlayerHealth())),10);
         g.setColor(Color.YELLOW);
         for(Bullet b: game.getBullets()){
             g.fillRect((int)(b.getLoc()[0]*xScale),(int)(b.getLoc()[1]*yScale),(int)(xScale/4),(int)(yScale/4));
         }
         g.setColor(Color.BLACK);
-        g.drawString("Health"+game.getPlayerHealth(),900,20);
+        g.setFont(new Font("TimesRoman", Font.PLAIN, 40)); 
+        g.drawString(game.getName()+": "+game.getScores()[0],20,50);
+        g.drawString(game.getP2Name()+": "+game.getScores()[1],1700,50);
     }
 }
