@@ -20,7 +20,6 @@ public class Main{
                 Thread.sleep(1000/60);
                 game.update();
                 screen.draw();
-                game.dealDamage(0.5);
             }
             catch(Exception e){
                 System.out.println(e);
