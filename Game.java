@@ -286,7 +286,7 @@ public class Game{
     public void p2Jump(){
         if(p2Grounded){
             p2YVelocity = 0.03;
-            grounded = false;
+            p2Grounded = false;
         }
     }
     public void setP2Right(boolean r){
