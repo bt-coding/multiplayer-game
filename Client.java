@@ -16,11 +16,11 @@ public class Client implements Runnable {
             System.out.println("Assigned connector role");
             String otherIP = din.readLine();
             System.out.println("host IP is: " + otherIP);
-            p2p = new Socket(otherIP.substring(1),44554);
+            p2p = new Socket(otherIP.substring(1),50001);
             System.out.println("Successfully connected to host");
         } else if (role.equals("h")) {
             System.out.println("Assigned host role");
-            ServerSocket host = new ServerSocket(44554);
+            ServerSocket host = new ServerSocket(50001);
             System.out.println("Waiting for connector to connect");
             p2p = host.accept();
             System.out.println("Connection from client received");
