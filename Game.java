@@ -156,7 +156,7 @@ public class Game{
         if(p2Right && p2loc[0] < map[0].length-1){
             p2loc[0] += 0.1;
         }
-        if(p2Left && p2loc[1] > 0){
+        if(p2Left && p2loc[0] > 0){
             p2loc[0] -= 0.1;
         }
         if(p2Grounded){
@@ -285,7 +285,7 @@ public class Game{
     }
     public void p2Jump(){
         if(p2Grounded){
-            p2YVelocity = 0.03;
+            p2YVelocity = 0.3;
             p2Grounded = false;
         }
     }
