@@ -26,8 +26,9 @@ public class ServerHost {
             din = new BufferedReader(new InputStreamReader(s.getInputStream()));
             ps = new PrintStream(s.getOutputStream());
             System.out.println("server has received a connection from " + s.getInetAddress());
+            boolean tempfix=true;
             if (isWaiting) {
-                if (waitinghost.getInetAddress().isReachable(5)) {
+                if (waitinghost.getInetAddress().isReachable(5) || tempfix) {
                     System.out.println("both connections online, transmitting connection data");
                     ps.println("c");
                     ps.println(otherIP);
