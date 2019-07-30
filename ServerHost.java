@@ -8,33 +8,40 @@
 import java.net.*;
 import java.io.*;
 public class ServerHost {
-    public static void main(String[] args) throws Exception {
-        Socket waitingSock = null;
-        Socket newsock = null;
+    public static void main(String[] args) throws IOException {
+        String otherIP = "";
         boolean isWaiting = false;
-        boolean online=true;
+        BufferedReader din = null;
+        PrintStream ps = null;
         ServerSocket serv = new ServerSocket(45454);
-        while(online) {
-            if (waitingSock == null) {
-                Socket s = serv.accept();
-            } else {
-                
-            }
+        Socket waitinghost = null;
+        while(true) {
+            Socket s = null;
             if (isWaiting) {
-                //connect(waitingSock,s);
-                //System.out.println("Server has matched " + waitingSock.getInetAddress() + " with " + s.getInetAddress().toString());
+                s = serv.accept();
             } else {
-                //waitingSock=(Socket)((Socket)s).clone();
+                waitinghost=serv.accept();
+                s=waitinghost;
+            }
+            din = new BufferedReader(new InputStreamReader(s.getInputStream()));
+            ps = new PrintStream(s.getOutputStream());
+            System.out.println("server has received a connection from " + s.getInetAddress());
+            if (isWaiting) {
+                if (waitinghost.getInetAddress().isReachable(5)) {
+                    System.out.println("both connections online, transmitting connection data");
+                    ps.println("c");
+                    ps.println(otherIP);
+                    isWaiting=false;
+                } else {
+                    System.out.println("Waiting host disconnected, though a new host has connected");
+                    ps.println("h");
+                    otherIP=s.getInetAddress().toString();
+                }
+            } else {
+                ps.println("h");
+                otherIP=s.getInetAddress().toString();
                 isWaiting=true;
-                //System.out.println("Server received waiting player at IP: " + waitingIP.getInetAddress());
             }
         }
-    }
-    public static void connect(Socket s1, Socket s2) {
-        //String primeip = ip1;
-        //String secondip = ip2;
-        
-        
-        
     }
 }

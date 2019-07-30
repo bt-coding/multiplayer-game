@@ -24,8 +24,10 @@ public class Game{
     private int[] scores;
     private String name;
     private String p2Name;
-    public Game(int mn){
+    private Client connection;
+    public Game(int mn, Client c){
         map = getMap(mn);
+        connection = c;
         p1loc = new double[2];
         p2loc = new double[2];
         yVelocity = 0;
@@ -204,7 +206,11 @@ public class Game{
             respawn();
         }
     }
+    public boolean getGrounded() {
+        return grounded;
+    }
     public void shoot(){
+        connection.sendData("m:c:" + p1loc[0] + "," + p1loc[1]);
         bullets.add(new Bullet(new double[]{p1loc[0]+0.5,p1loc[1]+1},getSlope()));
     }
     public void p2Shoot(double[] ml){
