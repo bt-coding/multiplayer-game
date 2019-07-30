@@ -9,7 +9,7 @@ public class Client implements Runnable {
     Socket matchmaking;
     Game game;
     public Client() throws IOException {
-        Socket matchmaking = new Socket("71.115.226.213",45454);
+        Socket matchmaking = new Socket("127.0.0.1",45454);
         BufferedReader din = new BufferedReader(new InputStreamReader(matchmaking.getInputStream()));
         String role = din.readLine();
         if (role.equals("c")) {
