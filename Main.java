@@ -12,7 +12,7 @@ public class Main{
             System.exit(1);
         }
         JFrame frame = new JFrame("Game Window");
-        Game game = new Game(0,connection);
+        Game game = new Game(0,connection,frame);
         connection.setGame(game);
         (new Thread(connection)).start();
         Display screen = new Display(game);

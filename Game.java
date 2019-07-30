@@ -1,4 +1,5 @@
 import java.awt.*;
+import javax.swing.*;
 import java.util.*;
 public class Game{
     private int[][] map;
@@ -25,7 +26,8 @@ public class Game{
     private String name;
     private String p2Name;
     private Client connection;
-    public Game(int mn, Client c){
+    private JFrame frame;
+    public Game(int mn, Client c,JFrame f){
         map = getMap(mn);
         connection = c;
         p1loc = new double[2];
@@ -39,6 +41,7 @@ public class Game{
         name = "Player";
         p2Name = "Player 2";
         scores = new int[2];
+        frame = f;
     }
     public void setName(String n){
         name = n;
@@ -210,7 +213,7 @@ public class Game{
         return grounded;
     }
     public void shoot(){
-        connection.sendData("m:c:" + p1loc[0] + "," + p1loc[1]);
+        connection.sendData("m:c:" + (MouseInfo.getPointerInfo().getLocation().x-frame.getX()) + "," + (MouseInfo.getPointerInfo().getLocation().y-frame.getY()));
         bullets.add(new Bullet(new double[]{p1loc[0]+0.5,p1loc[1]+1},getSlope()));
     }
     public void p2Shoot(double[] ml){
@@ -219,7 +222,7 @@ public class Game{
     public double[] getSlope(){
         double h2 = 0.3;
         double[] p1 = new double[]{(p1loc[0]+0.5)*scales[0],(p1loc[1]+1)*scales[1]};
-        double[] p2 = new double[]{MouseInfo.getPointerInfo().getLocation().x,MouseInfo.getPointerInfo().getLocation().y};
+        double[] p2 = new double[]{MouseInfo.getPointerInfo().getLocation().x-frame.getX(),MouseInfo.getPointerInfo().getLocation().y-frame.getY()};
         //System.out.println(p1[0] + " " + p1[1]);
         double h1 = Math.sqrt(((p2[0]-p1[0])*(p2[0]-p1[0]))+((p2[1]-p1[1])*(p2[1]-p1[1])));
         double y1 = p2[1]-p1[1];
@@ -246,6 +249,9 @@ public class Game{
     }
     public ArrayList<Bullet> getBullets(){
         return bullets;
+    }
+    public ArrayList<Bullet> getP2Bullets(){
+        return p2Bullets;
     }
     public boolean landed(){
         Rectangle player = new Rectangle((int)(p1loc[0]*scales[0]),(int)((p1loc[1]*scales[1])+(scales[1]*2)),(int)(scales[0]),1);

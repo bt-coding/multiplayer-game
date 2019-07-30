@@ -89,9 +89,13 @@ public class Display extends JComponent{
         g.fillRect((int)(p2loc[0]*xScale),(int)(p2loc[1]*yScale-9),(int)xScale,10);
         g.setColor(Color.GREEN);
         g.fillRect((int)(p1loc[0]*xScale-1),(int)(p1loc[1]*yScale-9),(int)(xScale*(game.getPlayerHealth()/game.getMaxPlayerHealth())),10);
+        g.setColor(Color.BLACK);
         g.fillRect((int)(p2loc[0]*xScale-1),(int)(p2loc[1]*yScale-9),(int)(xScale*(game.getP2Health()/game.getMaxPlayerHealth())),10);
         g.setColor(Color.YELLOW);
         for(Bullet b: game.getBullets()){
+            g.fillRect((int)(b.getLoc()[0]*xScale),(int)(b.getLoc()[1]*yScale),(int)(xScale/4),(int)(yScale/4));
+        }
+        for(Bullet b: game.getP2Bullets()){
             g.fillRect((int)(b.getLoc()[0]*xScale),(int)(b.getLoc()[1]*yScale),(int)(xScale/4),(int)(yScale/4));
         }
         g.setColor(Color.BLACK);
