@@ -15,6 +15,7 @@ public class Client implements Runnable {
         if (role.equals("c")) {
             System.out.println("Assigned connector role");
             String otherIP = din.readLine();
+            System.out.println("host IP is: " + otherIP);
             p2p = new Socket(otherIP.substring(1),44554);
             System.out.println("Successfully connected to host");
         } else if (role.equals("h")) {
